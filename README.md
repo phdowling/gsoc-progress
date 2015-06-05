@@ -5,3 +5,5 @@ My project is outlined [here](https://www.google-melange.com/gsoc/project/detail
 
 This repository will contain some code that results from the work I do, which doesn't directly go into the Spotlight codebase. I'll also write sone summaries of what tasks I work on each week and what the key results are.
 
+Check out the [Wiki](https://github.com/phdowling/gsoc-progress/wiki) for weekly updates!
+
