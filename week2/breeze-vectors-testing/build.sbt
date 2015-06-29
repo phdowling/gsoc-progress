@@ -1,5 +1,7 @@
 name := "breeze-vectors-testing"
 
+fork := true
+
 version := "1.0"
 
 libraryDependencies  ++= Seq(
