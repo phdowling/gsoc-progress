@@ -10,7 +10,7 @@ import scala.io.Source
  * Created by dowling on 04/06/15.
  */
 class Word2VecWrapper(modelPath: String, dictPath: String) {
-  var dict: Map[String, Int] = Source.fromFile(dictPath).getLines().map { line =>
+  var dict: Map[String, Int] = Source.fromFile(dictPath, "UTF-8").getLines().map { line =>
     val contents = line.split("\t")
     (contents(0), contents(1).toInt)
   }.toMap
