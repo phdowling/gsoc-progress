@@ -10,12 +10,13 @@ import scala.io.Source
  * Created by dowling on 04/06/15.
  */
 class Word2VecWrapper(modelPath: String, dictPath: String) {
-  var vectors: DenseMatrix[Double] = csvread(new File(modelPath))
-
   var dict: Map[String, Int] = Source.fromFile(dictPath).getLines().map { line =>
     val contents = line.split("\t")
     (contents(0), contents(1).toInt)
   }.toMap
+
+  var vectors: DenseMatrix[Double] = csvread(new File(modelPath))
+
 
   def lookup(token: String): Transpose[DenseVector[Double]]={
     // look up vector, if it isn't there, simply ignore the word
