@@ -3,7 +3,7 @@ import java.io.File
 import breeze.numerics._
 import breeze.linalg._
 
-import scala.collection.mutable
+
 import scala.io.Source
 
 /**
@@ -11,27 +11,33 @@ import scala.io.Source
  */
 class Word2VecWrapper(modelPath: String, dictPath: String) {
   var vectors: DenseMatrix[Double] = csvread(new File(modelPath))
-  var dict: mutable.HashMap[String, Int] = mutable.HashMap()
-  read_dict(dictPath)
+
+  var dict: Map[String, Int] = Source.fromFile(dictPath).getLines().map { line =>
+    val contents = line.split("\t")
+    (contents(0), contents(1).toInt)
+  }.toMap
+
+  def lookup(token: String): Transpose[DenseVector[Double]]={
+    // look up vector, if it isn't there, simply ignore the word
+    // TODO: is this good standard behaviour?
+    if(dict.contains(token)){
+      vectors(dict(token), ::)
+    }else{
+      DenseVector.zeros[Double](vectors.cols).t
+    }
+  }
 
   def get_similarity(first: String, second:String): Double = {
-    val f = vectors(dict(first),0 to vectors.cols-1)
-    val s = vectors(dict(second), 0 to vectors.cols-1)
-    f * s.t
+    // todo: do we need 1 - (lookup(first) * lookup(second).t) ?
+
+    lookup(first) * lookup(second).t
   }
 
   def get_similarity(first: Array[String], second: Array[String]): Double = {
-    val f = first.map( s => {vectors(dict(s), 0 to vectors.cols - 1)}).reduceLeft(_ + _)
-    val s = second.map( s => {vectors(dict(s), 0 to vectors.cols - 1)}).reduceLeft(_ + _)
+    val f = first.map(lookup).reduceLeft(_ + _)
+    val s = second.map(lookup).reduceLeft(_ + _)
 
     f * s.t
   }
 
-  def read_dict(dictPath:String): Unit ={
-    Source.fromFile(dictPath).getLines().foreach(line => {
-        val contents = line.split("\t")
-        dict(contents(0)) = contents(1).toInt
-      }
-    )
-  }
 }

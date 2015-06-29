@@ -16,6 +16,7 @@ object Hello{
     val w2v = new Word2VecWrapper(modelpath, dictpath)
     println(w2v.get_similarity("affiliated", "advancement"))
     println(w2v.get_similarity("affiliated people".split(" "), "advancement houses".split(" ")))
+    println(w2v.get_similarity("affiliated people asfgaw".split(" "), "advancement adadewef houses".split(" ")))
 
   }
 
