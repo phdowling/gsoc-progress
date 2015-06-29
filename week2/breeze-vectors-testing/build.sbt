@@ -15,6 +15,8 @@ resolvers ++= Seq(
   "Sonatype Releases" at "https://oss.sonatype.org/content/repositories/releases/"
 )
 
+javaOptions += "-Xmx1G"
+
 // Scala 2.9.2 is still supported for 0.2.1, but is dropped afterwards.
 //scalaVersion := "2.11.1" // or 2.10.3 or later
 
