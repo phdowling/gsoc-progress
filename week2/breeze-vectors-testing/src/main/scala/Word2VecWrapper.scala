@@ -10,11 +10,13 @@ import scala.io.Source
  * Created by dowling on 04/06/15.
  */
 class Word2VecWrapper(modelPath: String, dictPath: String) {
+  println("Read dict..")
   var dict: Map[String, Int] = Source.fromFile(dictPath, "UTF-8").getLines().map { line =>
     val contents = line.split("\t")
     (contents(0), contents(1).toInt)
   }.toMap
 
+  println("Read weights..")
   var vectors: DenseMatrix[Double] = csvread(new File(modelPath))
 
 
