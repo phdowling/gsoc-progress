@@ -2,6 +2,7 @@ import java.io.File
 
 import breeze.numerics._
 import breeze.linalg._
+import com.github.tototoshi.csv._
 
 
 import scala.io.Source
@@ -17,7 +18,27 @@ class Word2VecWrapper(modelPath: String, dictPath: String) {
   }.toMap
 
   println("Read weights..")
-  var vectors: DenseMatrix[Double] = csvread(new File(modelPath))
+  val matrixSource = io.Source.fromFile(modelPath)
+  val lines = matrixSource.getLines()
+  val rows = lines.next().substring(2).toInt
+  val cols = lines.next().substring(2).toInt
+  var vectors: DenseMatrix[Double] = DenseMatrix.zeros[Double](rows, cols)
+  lines.zipWithIndex.foreach{case (row_str, row_idx) =>
+    if(row_idx % 10000 == 0)
+      println("At row " + row_idx)
+    val vals = row_str.split(",").map(_.trim).map(_.toDouble)
+    vals.zipWithIndex.foreach{case (value, col_idx) => vectors(row_idx, col_idx) = value}
+  }
+  matrixSource.close()
+
+  //val reader = CSVReader.open(new File("sample.csv")).toStream()
+  //val head_str = reader.head()
+  //var vectors: DenseMatrix[Double] = DenseMatrix.zeros[Double](4000000, 100)
+  //reader.zipWithIndex.foreach{ case (row, row_idx) =>
+  //  row.map(_.toDouble).zipWithIndex.foreach{ case (value, col_idx) =>
+  //
+  //  }
+  //}
 
 
   def lookup(token: String): Transpose[DenseVector[Double]]={

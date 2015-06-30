@@ -58,5 +58,6 @@
     <orderEntry type="library" name="SBT: org.scalanlp:breeze_2.10:0.10:jar" level="project" />
     <orderEntry type="library" name="SBT: org.spire-math:spire-macros_2.10:0.7.4:jar" level="project" />
     <orderEntry type="library" name="SBT: org.spire-math:spire_2.10:0.7.4:jar" level="project" />
+    <orderEntry type="library" name="SBT: com.github.tototoshi:scala-csv_2.10:1.2.1:jar" level="project" />
   </component>
 </module>
