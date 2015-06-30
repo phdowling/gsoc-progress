@@ -11,10 +11,7 @@ import scala.io.Source
  * Created by dowling on 04/06/15.
  */
 
-def cosine_similarity(vector1: Transpose[DenseVector[Double]], vector2: Transpose[DenseVector[Double]]): Double = {
-  (vector1 * vector2.t) /
-    (sqrt(vector1 * vector1.t) * sqrt(vector2 * vector2.t))
-}
+
 
 
 class Word2VecWrapper(modelPath: String, dictPath: String) {
@@ -23,6 +20,11 @@ class Word2VecWrapper(modelPath: String, dictPath: String) {
     val contents = line.split("\t")
     (contents(0), contents(1).toInt)
   }.toMap
+
+  def cosine_similarity(vector1: Transpose[DenseVector[Double]], vector2: Transpose[DenseVector[Double]]): Double = {
+    (vector1 * vector2.t) /
+      (sqrt(vector1 * vector1.t) * sqrt(vector2 * vector2.t))
+  }
 
   println("Read weights..")
   val vectors: DenseMatrix[Double] = read_weights_csv
